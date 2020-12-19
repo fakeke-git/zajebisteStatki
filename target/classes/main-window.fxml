@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<VBox alignment="center" prefHeight="315.0" prefWidth="769.0"
+	styleClass="container" stylesheets="@styles.css"
+	xmlns="http://javafx.com/javafx/11.0.1"
+	xmlns:fx="http://javafx.com/fxml/1"
+	fx:controller="com.testowanie.controller.MainWindowController">
+
+	<Label alignment="CENTER" prefHeight="89.0" prefWidth="769.0"
+		text="Gra w stateczki">
+		<font>
+			<Font size="64.0" />
+		</font>
+	</Label>
+	<Label alignment="TOP_CENTER" prefHeight="80.0" prefWidth="200.0"
+		text="Wybierz tryb">
+		<font>
+			<Font size="24.0" />
+		</font>
+	</Label>
+
+	<Label alignment="CENTER" styleClass="hoverowyLabel"
+		text="Tryb Klasyczny" onMouseClicked="#doTrybuKlasycznego">
+		<font>
+			<Font size="24.0" />
+		</font>
+	</Label>
+	<Label alignment="CENTER" styleClass="hoverowyLabel"
+		text="Tryb Customowy" onMouseClicked="#doTrybuCustomowego">
+		<font>
+			<Font size="24.0" />
+		</font>
+	</Label>
+	<HBox />
+	<BorderPane prefHeight="71.0" prefWidth="769.0">
+		<right>
+			<Label onMouseClicked="#wyjdz" alignment="BOTTOM_CENTER"
+				contentDisplay="RIGHT" prefHeight="71.0" prefWidth="188.0"
+				styleClass="hoverowyLabel" text="Wyjdź"
+				BorderPane.alignment="CENTER">
+				<font>
+					<Font size="24.0" />
+				</font>
+			</Label>
+		</right>
+	</BorderPane>
+
+</VBox>
