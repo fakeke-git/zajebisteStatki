@@ -13,7 +13,8 @@ import javafx.stage.Stage;
 public class WyborPrzeciwnikaController {
 
 	public void doGierki(Event event) throws IOException{
-		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+//		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
 		Node node = (Node) event.getSource();
 		Stage stage = (Stage) node.getScene().getWindow();
 		stage.setScene(gierka);

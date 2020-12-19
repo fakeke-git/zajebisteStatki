@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
+      prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.testowanie.controller.UstawianieStatkowController">
+    <children>
+        <VBox prefHeight="400" prefWidth="400">
+            <children>
+                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="21.0" prefWidth="277.0"
+                       text="Plansza gracza" textAlignment="CENTER">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <GridPane fx:id="plansza1" gridLinesVisible="true" prefHeight="400" prefWidth="400"/>
+            </children>
+            <HBox.margin>
+                <Insets right="50.0"/>
+            </HBox.margin>
+        </VBox>
+        <VBox prefHeight="400.0" prefWidth="159.0">
+            <children>
+                <BorderPane prefHeight="415.0" prefWidth="155.0">
+                    <center>
+                        <GridPane prefWidth="400.0" BorderPane.alignment="CENTER">
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="350.0"/>
+                                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                            </rowConstraints>
+                            <children>
+                                <Label text="Statków czteromasztowych: "/>
+                                <Label fx:id="liczbaCztero" text="1" GridPane.columnIndex="1"/>
+                                <Label text="Statków trzymasztowych: " GridPane.rowIndex="1"/>
+                                <Label fx:id="liczbaTrzy" text="2" GridPane.columnIndex="1" GridPane.rowIndex="1"/>
+                                <Label text="Statków dwumasztowych: " GridPane.rowIndex="2"/>
+                                <Label fx:id="liczbaDwa" text="3" GridPane.columnIndex="1" GridPane.rowIndex="2"/>
+                                <Label text="Statków jednomasztowych: " GridPane.rowIndex="3"/>
+                                <Label fx:id="liczbaJeden" text="4" GridPane.columnIndex="1" GridPane.rowIndex="3"/>
+                            </children>
+                        </GridPane>
+                    </center>
+                    <bottom>
+                        <HBox prefHeight="100.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                            <children>
+                                <Button onMouseClicked="#cofnij" mnemonicParsing="false" text="Cofnij"/>
+                                <Button onMouseClicked="#dalej" mnemonicParsing="false" text="Zatwierdź">
+                                    <HBox.margin>
+                                        <Insets left="40.0"/>
+                                    </HBox.margin>
+                                </Button>
+                            </children>
+                        </HBox>
+                    </bottom>
+                </BorderPane>
+            </children>
+        </VBox>
+    </children>
+</HBox>

@@ -19,13 +19,13 @@ public class MainWindowController {
                 2, 3, 4);
         
 
-        Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+        Scene wyborPrzeciwnika = new Scene(FXMLLoader.load(getClass().getResource("/wyborprzeciwnika.fxml")), 900, 400);
         Node node = (Node) event.getSource();
         Stage stage = (Stage) node.getScene().getWindow();
 
         stage.setUserData(ustawienia);
 
-        stage.setScene(gierka);
+        stage.setScene(wyborPrzeciwnika);
     }
 
     public void doTrybuCustomowego(Event event) throws IOException {

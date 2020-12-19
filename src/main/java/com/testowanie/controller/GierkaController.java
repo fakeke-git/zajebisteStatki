@@ -15,12 +15,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.stage.Stage;
 
 public class GierkaController {
-    //final static int rozmiar = 10;
-    
-    @FXML
     private Ustawienia ustawienia;
-    
-
 
 	@FXML
 	private void wezUstawienia(Event event) {
@@ -43,9 +38,6 @@ public class GierkaController {
     }
 
     public void dodajP(GridPane p, int rozmiar) {
-    	
-    	//int rozmiar = ustawienia.getRozmiarPlansz();
-        //int rozmiar = 5;
     	for (int i = 0; i < rozmiar; i++) {
             ColumnConstraints col = new ColumnConstraints();
             RowConstraints row = new RowConstraints();
