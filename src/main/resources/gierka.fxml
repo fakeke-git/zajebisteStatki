@@ -21,7 +21,7 @@
 						<Font size="18.0" />
 					</font>
 				</Label>
-				<GridPane fx:id="plansza1" gridLinesVisible="true"
+				<GridPane fx:id="plansza1"
 					prefHeight="400" prefWidth="400" />
 			</children>
 			<HBox.margin>
@@ -39,7 +39,7 @@
 						<Insets left="120.0" />
 					</padding>
 				</Label>
-				<GridPane fx:id="plansza2" gridLinesVisible="true"
+				<GridPane fx:id="plansza2"
 					prefHeight="400" prefWidth="400" />
 			</children>
 			<HBox.margin>
