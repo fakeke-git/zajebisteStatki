@@ -7,12 +7,22 @@ public class ButtonProperties {
 	private int y;
 	private boolean zajety;
 	private boolean strzelony;
+	private boolean czyMaStatek;
 
-	public ButtonProperties(int x, int y, boolean zajety, boolean strzelony) {
+	public ButtonProperties(int x, int y, boolean zajety, boolean strzelony, boolean czyMaStatek) {
 		this.x = x;
 		this.y = y;
 		this.zajety = zajety;
 		this.strzelony = strzelony;
+		this.czyMaStatek = czyMaStatek;
+	}
+
+	public boolean isCzyMaStatek() {
+		return czyMaStatek;
+	}
+
+	public void setCzyMaStatek(boolean czyMaStatek) {
+		this.czyMaStatek = czyMaStatek;
 	}
 
 	public int getX() {

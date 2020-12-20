@@ -85,7 +85,7 @@ public class UstawianieStatkowController {
 				b.setPrefHeight(ph);
 				p.add(b, j, i);
 
-				b.setUserData(new ButtonProperties(i, j, false, false));
+				b.setUserData(new ButtonProperties(i, j, false, false, false));
 
 				ustawEventy(b);
 
@@ -150,8 +150,6 @@ public class UstawianieStatkowController {
 		}
 	}
 
-	
-
 	private void ustawEventy(Button b) {
 		ustawNajechanie(b);
 		ustawWyjechanie(b);
@@ -175,6 +173,8 @@ public class UstawianieStatkowController {
 									.isZajety())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
+							ButtonProperties tempProperties = (ButtonProperties) tablicaPrzyciskow[x][y].getUserData();
+							tempProperties.setCzyMaStatek(true);
 							y++;
 						}
 						gotoweDoUstawienia = true;
@@ -186,6 +186,8 @@ public class UstawianieStatkowController {
 									.isZajety())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
+							ButtonProperties tempProperties = (ButtonProperties) tablicaPrzyciskow[x][y].getUserData();
+							tempProperties.setCzyMaStatek(true);
 							x++;
 						}
 						gotoweDoUstawienia = true;
@@ -243,11 +245,11 @@ public class UstawianieStatkowController {
 		b.setOnAction(e -> {
 
 			ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
-//			int x = buttonProperties.getX();
-//			int y = buttonProperties.getY();
+			int x = buttonProperties.getX();
+			int y = buttonProperties.getY();
 
 			if (gotoweDoUstawienia) {
-				zmienZajety(e, true);
+				zmienZajety(x, y, true);
 
 				czyUstawianie = false;
 				gotoweDoUstawienia = false;
@@ -272,37 +274,75 @@ public class UstawianieStatkowController {
 			}
 
 			if ((!czyUstawianie) && (buttonProperties.isZajety()) && b.getStyle().matches(".*coral$")) {
+
+				while ((y - 1 >= 0) && ((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).isZajety()
+						&& tablicaPrzyciskow[x][y - 1].getStyle().matches(".*coral$")) {
+					System.out.println("X poziomo: " + x);
+					System.out.println("Y poziomo: " + y);
+					y--;
+				}
+				while ((x - 1 >= 0) && ((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).isZajety()
+						&& tablicaPrzyciskow[x - 1][y].getStyle().matches(".*coral$")) {
+					System.out.println("X pionowo: " + x);
+					System.out.println("Y pionowo: " + y);
+					x--;
+				}
+
+				int tempCount = 1;
+				int tempX = x;
+				int tempY = y;
+				boolean tempCzyPoziomo = true;
+				while ((tempY + 1 < ustawienia.getRozmiarPlansz()) && (((ButtonProperties) tablicaPrzyciskow[tempX][tempY + 1].getUserData()).isZajety()
+						&& tablicaPrzyciskow[tempX][tempY + 1].getStyle().matches(".*coral$"))) {
+					tempY++;
+					tempCount++;
+					tempCzyPoziomo = true;
+				}
+				while ((tempX + 1 < ustawienia.getRozmiarPlansz()) && (((ButtonProperties) tablicaPrzyciskow[tempX + 1][tempY].getUserData()).isZajety()
+						&& tablicaPrzyciskow[tempX + 1][tempY].getStyle().matches(".*coral$"))) {
+					tempX++;
+					tempCount++;
+					tempCzyPoziomo = false;
+				}
+
 				System.out.println("Kliknieto na zajete pole.");
 				System.out.println(b.getStyle());
+				System.out.println("X początkowy: " + x);
+				System.out.println("Y początkowy: " + y);
+				System.out.println(tempCount);
+
+				zmienZajety(x, y, false);
+				czyUstawianie = true;
+				iloMasztowy = tempCount;
+				czyszczenie(tablicaPrzyciskow[x][y]);
+				czyPoziomo = tempCzyPoziomo;
 
 			}
 		});
 
 	}
 
-	private void zmienZajety(Event e, boolean czyZajety) {
+	private void zmienZajety(int x, int y, boolean czyZajety) {
 
-		ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
-		int x = buttonProperties.getX();
-		int y = buttonProperties.getY();
+//		ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
 
 		for (int k = iloMasztowy; k > 0; k--) {
 			if (czyPoziomo) {
 
-				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
+				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(czyZajety);
 
 				if (x - 1 >= 0) {
-					((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(true);
+					((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(czyZajety);
 				}
 
 				if (x + 1 < ustawienia.getRozmiarPlansz()) {
-					((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(true);
+					((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(czyZajety);
 				}
 
 				if (k == iloMasztowy) {
 					for (int i = -1; i <= 1; i++) {
 						if (y - 1 >= 0 && x + i >= 0 && x + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(true);
+							((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(czyZajety);
 						}
 
 					}
@@ -312,7 +352,7 @@ public class UstawianieStatkowController {
 					for (int i = -1; i <= 1; i++) {
 						if (y + 1 < ustawienia.getRozmiarPlansz() && x + i >= 0
 								&& x + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(true);
+							((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(czyZajety);
 						}
 
 					}
@@ -321,20 +361,20 @@ public class UstawianieStatkowController {
 				y++;
 			} else {
 
-				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
+				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(czyZajety);
 
 				if (y - 1 >= 0) {
-					((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(true);
+					((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(czyZajety);
 				}
 
 				if (y + 1 < ustawienia.getRozmiarPlansz()) {
-					((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(true);
+					((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(czyZajety);
 				}
 
 				if (k == iloMasztowy) {
 					for (int i = -1; i <= 1; i++) {
 						if (x - 1 >= 0 && y + i >= 0 && y + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(true);
+							((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(czyZajety);
 						}
 
 					}
@@ -344,7 +384,7 @@ public class UstawianieStatkowController {
 					for (int i = -1; i <= 1; i++) {
 						if (x + 1 < ustawienia.getRozmiarPlansz() && y + i >= 0
 								&& y + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(true);
+							((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(czyZajety);
 						}
 
 					}
