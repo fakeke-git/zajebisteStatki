@@ -84,7 +84,7 @@ public class UstawianieStatkowController {
 				b.setPrefHeight(ph);
 				p.add(b, j, i);
 
-				b.setUserData(new ButtonProperties(i, j, false));
+				b.setUserData(new ButtonProperties(i, j, false, false));
 
 				ustawEventy(b);
 
@@ -152,11 +152,13 @@ public class UstawianieStatkowController {
 		private int x;
 		private int y;
 		private boolean zajety;
+		private boolean strzelony;
 
-		public ButtonProperties(int x, int y, boolean zajety) {
+		public ButtonProperties(int x, int y, boolean zajety, boolean strzelony) {
 			this.x = x;
 			this.y = y;
 			this.zajety = zajety;
+			this.strzelony = strzelony;
 		}
 
 		public int getX() {
@@ -181,6 +183,14 @@ public class UstawianieStatkowController {
 
 		public void setZajety(boolean zajety) {
 			this.zajety = zajety;
+		}
+
+		public boolean isStrzelony() {
+			return strzelony;
+		}
+
+		public void setStrzelony(boolean strzelony) {
+			this.strzelony = strzelony;
 		}
 
 	}
