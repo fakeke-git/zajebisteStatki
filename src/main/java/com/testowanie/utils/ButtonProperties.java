@@ -17,6 +17,12 @@ public class ButtonProperties {
 		this.czyMaStatek = czyMaStatek;
 	}
 
+	@Override
+	public String toString() {
+		return "ButtonProperties [x=" + x + ", y=" + y + ", zajety=" + zajety + ", strzelony=" + strzelony
+				+ ", czyMaStatek=" + czyMaStatek + "]";
+	}
+
 	public boolean isCzyMaStatek() {
 		return czyMaStatek;
 	}

@@ -113,7 +113,6 @@ public class UstawianieStatkowController {
 		ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
 		ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
 		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
-
 		stage.setScene(gierka);
 	}
 
@@ -173,8 +172,6 @@ public class UstawianieStatkowController {
 									.isZajety())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
-							ButtonProperties tempProperties = (ButtonProperties) tablicaPrzyciskow[x][y].getUserData();
-							tempProperties.setCzyMaStatek(true);
 							y++;
 						}
 						gotoweDoUstawienia = true;
@@ -186,8 +183,6 @@ public class UstawianieStatkowController {
 									.isZajety())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
-							ButtonProperties tempProperties = (ButtonProperties) tablicaPrzyciskow[x][y].getUserData();
-							tempProperties.setCzyMaStatek(true);
 							x++;
 						}
 						gotoweDoUstawienia = true;
@@ -330,6 +325,7 @@ public class UstawianieStatkowController {
 			if (czyPoziomo) {
 
 				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(czyZajety);
+				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setCzyMaStatek(czyZajety);
 
 				if (x - 1 >= 0) {
 					((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(czyZajety);
@@ -362,6 +358,7 @@ public class UstawianieStatkowController {
 			} else {
 
 				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(czyZajety);
+				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setCzyMaStatek(czyZajety);
 
 				if (y - 1 >= 0) {
 					((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(czyZajety);
