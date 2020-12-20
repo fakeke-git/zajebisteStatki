@@ -89,8 +89,7 @@ public class GierkaController {
         for (var buttons : buttonyPrzeciwnika) {
             for (var b : buttons) {
                 ButtonProperties ustawienia = (ButtonProperties) b.getUserData();
-                System.out.println(ustawienia);
-                if (ustawienia.isZajety() && !ustawienia.isStrzelony()) return false;
+                if (ustawienia.isCzyMaStatek() && !ustawienia.isStrzelony()) return false;
             }
         }
         return true;
@@ -101,7 +100,7 @@ public class GierkaController {
         for (int i = 0; i < rozmiar; i++) {
             for (int j = 0; j < rozmiar; j++) {
                 Button b = gracz == 1 ? ustawienia.getPlanszaGracza1()[i][j] : ustawienia.getPlanszaGracza2()[i][j];
-//                b.setDisable(true);
+                b.setDisable(true);
                 plansza2.add(b, j, i);
             }
         }
