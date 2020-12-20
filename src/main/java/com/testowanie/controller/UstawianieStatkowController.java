@@ -42,6 +42,7 @@ public class UstawianieStatkowController {
 	private boolean czyUstawianie;
 	private int iloMasztowy;
 	private boolean czyPoziomo;
+	private boolean gotoweDoUstawienia;
 
 	public void initialize() {
 		ustawienia = (Ustawienia) Main.primaryStage.getUserData();
@@ -167,10 +168,14 @@ public class UstawianieStatkowController {
 		ustawNajechanie(b);
 		ustawWyjechanie(b);
 		ustawPrawy(b);
+		ustawLewy(b);
 	}
 
 	private void ustawNajechanie(Button b) {
 		b.setOnMouseEntered(e -> {
+//			ButtonProperties test = (ButtonProperties) ((Button) e.getSource()).getUserData();
+//			System.out.println(test.isZajety());
+
 			if (czyUstawianie) {
 				ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
 				int x = buttonProperties.getX();
@@ -182,15 +187,19 @@ public class UstawianieStatkowController {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
 							y++;
 						}
-					}
+						gotoweDoUstawienia = true;
+					} else gotoweDoUstawienia = false;
 				} else {
 					if (!(iloMasztowy + x > ustawienia.getRozmiarPlansz())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
 							x++;
 						}
-					}
+						gotoweDoUstawienia = true;
+					} else gotoweDoUstawienia = false;
 				}
+				
+				
 			}
 		});
 	}
@@ -228,9 +237,88 @@ public class UstawianieStatkowController {
 		b.setOnContextMenuRequested(e -> {
 			czyszczenie(e.getSource());
 			obrocStatek();
-			MouseEvent event = new MouseEvent(MouseEvent.MOUSE_ENTERED, b.getLayoutX(), b.getLayoutY(), b.getLayoutX(), b.getLayoutY(), 
-					MouseButton.SECONDARY, 1, false, false, false, false, false, false, true, false, false, true, false, true, null);
+			MouseEvent event = new MouseEvent(MouseEvent.MOUSE_ENTERED, b.getLayoutX(), b.getLayoutY(), b.getLayoutX(),
+					b.getLayoutY(), MouseButton.SECONDARY, 1, false, false, false, false, false, false, true, false,
+					false, true, false, true, null);
 			b.fireEvent(event);
+		});
+	}
+	
+	private void ustawLewy(Button b) {
+		b.setOnAction(e -> {
+			
+			ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
+			int x = buttonProperties.getX();
+			int y = buttonProperties.getY();
+			
+			if(gotoweDoUstawienia) {
+				for(int k = iloMasztowy; k > 0; k--) {
+					if(czyPoziomo) {
+						
+						((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
+						
+						if(x - 1 >= 0) {
+							((ButtonProperties) tablicaPrzyciskow[x-1][y].getUserData()).setZajety(true);
+						}
+						
+						if(x + 1 < ustawienia.getRozmiarPlansz()) {
+							((ButtonProperties) tablicaPrzyciskow[x+1][y].getUserData()).setZajety(true);
+						}
+						
+						if(k == iloMasztowy) {
+							for(int i = -1; i <= 1; i++) {
+								if(y - 1 >= 0 && x + i >= 0 && x + i < ustawienia.getRozmiarPlansz()) { 
+									((ButtonProperties) tablicaPrzyciskow[x+i][y-1].getUserData()).setZajety(true);
+								}
+								
+							}
+						}
+						
+						if(k == 1) {
+							for(int i = -1; i <= 1; i++) {
+								if(y + 1 < ustawienia.getRozmiarPlansz() && x + i >= 0 && x + i < ustawienia.getRozmiarPlansz()) { 
+									((ButtonProperties) tablicaPrzyciskow[x+i][y+1].getUserData()).setZajety(true);
+								}
+								
+							}
+						} 
+						
+						y++;
+					} else {
+						
+						((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
+						
+						if(y - 1 >= 0) {
+							((ButtonProperties) tablicaPrzyciskow[x][y-1].getUserData()).setZajety(true);
+						}
+						
+						if(y + 1 < ustawienia.getRozmiarPlansz()) {
+							((ButtonProperties) tablicaPrzyciskow[x][y+1].getUserData()).setZajety(true);
+						}
+						
+						if(k == iloMasztowy) {
+							for(int i = -1; i <= 1; i++) {
+								if(x - 1 >= 0 && y + i >= 0 && y + i < ustawienia.getRozmiarPlansz()) { 
+									((ButtonProperties) tablicaPrzyciskow[x-1][y+i].getUserData()).setZajety(true);
+								}
+								
+							}
+						}
+						
+						if(k == 1) {
+							for(int i = -1; i <= 1; i++) {
+								if(x + 1 < ustawienia.getRozmiarPlansz() && y + i >= 0 && y + i < ustawienia.getRozmiarPlansz()) { 
+									((ButtonProperties) tablicaPrzyciskow[x+1][y+i].getUserData()).setZajety(true);
+								}
+								
+							}
+						} 
+						
+						x++;
+					}
+				}
+				czyUstawianie = false;
+			}
 		});
 	}
 
