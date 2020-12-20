@@ -346,6 +346,7 @@ public class UstawianieStatkowController {
 					}
 				}
 				czyUstawianie = false;
+				gotoweDoUstawienia = false;
 				switch (iloMasztowy) {
 				case 1:
 					liczbaJeden.setText(Integer.toString(Integer.valueOf(liczbaJeden.getText()) - 1));
