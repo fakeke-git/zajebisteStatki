@@ -17,13 +17,6 @@ import javafx.stage.Stage;
 public class GierkaController {
     private Ustawienia ustawienia;
 
-	@FXML
-	private void wezUstawienia(Event event) {
-		Node node = (Node) event.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		ustawienia = (Ustawienia) stage.getUserData();
-	}
-
     @FXML
     private GridPane plansza1;
     @FXML
@@ -31,12 +24,13 @@ public class GierkaController {
 
     public void initialize() {
     	ustawienia = (Ustawienia) Main.primaryStage.getUserData();
-//        dodajP(plansza1, ustawienia.getRozmiarPlansz());
-//        dodajP(plansza2, ustawienia.getRozmiarPlansz());
-//        asd(plansza1, ustawienia.getRozmiarPlansz());
+        dodajP(plansza1, ustawienia.getRozmiarPlansz());
+        dodajP(plansza2, ustawienia.getRozmiarPlansz());
+        dodajButtonyNaPlanszyPrzeciwnika(plansza1, ustawienia.getRozmiarPlansz());
+        dodajButtonyNaPlanszyGracza(plansza2, ustawienia.getRozmiarPlansz());
     }
 
-    /*public void dodajP(GridPane p, int rozmiar) {
+    public void dodajP(GridPane p, int rozmiar) {
     	for (int i = 0; i < rozmiar; i++) {
             ColumnConstraints col = new ColumnConstraints();
             RowConstraints row = new RowConstraints();
@@ -47,7 +41,8 @@ public class GierkaController {
         }
     }
 
-    public void asd(GridPane p, int rozmiar) {
+    public void dodajButtonyNaPlanszyPrzeciwnika(GridPane p, int rozmiar) {
+        Button buttons[][] = ustawienia.getPlanszaGracza2();
         for (int i = 0; i < rozmiar; i++) {
             for (int j = 0; j < rozmiar; j++) {
                 double width = p.getPrefWidth();
@@ -57,10 +52,20 @@ public class GierkaController {
                 Button b = new Button();
                 b.setPrefWidth(pv);
                 b.setPrefHeight(ph);
+//                if (()buttons[i][j].getUserData())
                 p.add(b, j, i);
-                
-                
+
             }
         }
-    }*/
+    }
+
+    public void dodajButtonyNaPlanszyGracza(GridPane p, int rozmiar) {
+        for (int i = 0; i < rozmiar; i++) {
+            for (int j = 0; j < rozmiar; j++) {
+                Button b = ustawienia.getPlanszaGracza1()[i][j];
+                b.setDisable(true);
+                p.add(b, j, i);
+            }
+        }
+    }
 }
