@@ -110,6 +110,8 @@ public class UstawianieStatkowController {
 		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
 		Node node = (Node) e.getSource();
 		Stage stage = (Stage) node.getScene().getWindow();
+		ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
+		ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
 
 		stage.setScene(gierka);
 	}
