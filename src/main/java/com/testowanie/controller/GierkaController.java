@@ -31,13 +31,12 @@ public class GierkaController {
 
     public void initialize() {
     	ustawienia = (Ustawienia) Main.primaryStage.getUserData();
-    	System.out.println(ustawienia);
-        dodajP(plansza1, ustawienia.getRozmiarPlansz());
-        dodajP(plansza2, ustawienia.getRozmiarPlansz());
-        asd(plansza1, ustawienia.getRozmiarPlansz());
+//        dodajP(plansza1, ustawienia.getRozmiarPlansz());
+//        dodajP(plansza2, ustawienia.getRozmiarPlansz());
+//        asd(plansza1, ustawienia.getRozmiarPlansz());
     }
 
-    public void dodajP(GridPane p, int rozmiar) {
+    /*public void dodajP(GridPane p, int rozmiar) {
     	for (int i = 0; i < rozmiar; i++) {
             ColumnConstraints col = new ColumnConstraints();
             RowConstraints row = new RowConstraints();
@@ -63,5 +62,5 @@ public class GierkaController {
                 
             }
         }
-    }
+    }*/
 }

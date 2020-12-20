@@ -1,6 +1,7 @@
 package com.testowanie.utils;
 
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Spinner;
 
 public class Ustawienia {
@@ -14,6 +15,10 @@ public class Ustawienia {
 	private int iloscStatkowDwa;
 
 	private int iloscStatkowJeden;
+
+	private Button[][] planszaGracza1 = null;
+
+	private Button[][] planszaGracza2 = null;
 
 	public Ustawienia(int rozmiarPlansz, int iloscStatkowCztero, int iloscStatkowTrzy, int iloscStatkowDwa,
 			int iloscStatkowJeden) {
@@ -62,6 +67,22 @@ public class Ustawienia {
 
 	public void setIloscStatkowJeden(int iloscStatkowJeden) {
 		this.iloscStatkowJeden = iloscStatkowJeden;
+	}
+
+	public Button[][] getPlanszaGracza1() {
+		return planszaGracza1;
+	}
+
+	public void setPlanszaGracza1(Button[][] planszaGracza1) {
+		this.planszaGracza1 = planszaGracza1;
+	}
+
+	public Button[][] getPlanszaGracza2() {
+		return planszaGracza2;
+	}
+
+	public void setPlanszaGracza2(Button[][] planszaGracza2) {
+		this.planszaGracza2 = planszaGracza2;
 	}
 
 	@Override
