@@ -1,6 +1,8 @@
 package com.testowanie.controller;
 
 import com.testowanie.Main;
+import com.testowanie.utils.ButtonProperties;
+import com.testowanie.utils.Punkt;
 import com.testowanie.utils.Ustawienia;
 
 import javafx.event.Event;
@@ -16,6 +18,7 @@ import javafx.stage.Stage;
 
 public class GierkaController {
     private Ustawienia ustawienia;
+    private int gracz = 1;
 
     @FXML
     private GridPane plansza1;
@@ -26,8 +29,8 @@ public class GierkaController {
     	ustawienia = (Ustawienia) Main.primaryStage.getUserData();
         dodajP(plansza1, ustawienia.getRozmiarPlansz());
         dodajP(plansza2, ustawienia.getRozmiarPlansz());
-        dodajButtonyNaPlanszyPrzeciwnika(plansza1, ustawienia.getRozmiarPlansz());
-        dodajButtonyNaPlanszyGracza(plansza2, ustawienia.getRozmiarPlansz());
+        dodajButtonyNaPlanszyPrzeciwnika(ustawienia.getRozmiarPlansz());
+        dodajButtonyNaPlanszyGracza(ustawienia.getRozmiarPlansz());
     }
 
     public void dodajP(GridPane p, int rozmiar) {
@@ -41,30 +44,65 @@ public class GierkaController {
         }
     }
 
-    public void dodajButtonyNaPlanszyPrzeciwnika(GridPane p, int rozmiar) {
-        Button buttons[][] = ustawienia.getPlanszaGracza2();
+    public void dodajButtonyNaPlanszyPrzeciwnika(int rozmiar) {
+        Button buttons[][] =  gracz == 1 ? ustawienia.getPlanszaGracza2() : ustawienia.getPlanszaGracza1();
         for (int i = 0; i < rozmiar; i++) {
             for (int j = 0; j < rozmiar; j++) {
-                double width = p.getPrefWidth();
-                double height = p.getPrefHeight();
+                double width = plansza1.getPrefWidth();
+                double height = plansza1.getPrefHeight();
                 double pv = width / rozmiar ;
                 double ph = height / rozmiar;
                 Button b = new Button();
                 b.setPrefWidth(pv);
                 b.setPrefHeight(ph);
-//                if (()buttons[i][j].getUserData())
-                p.add(b, j, i);
+                b.setUserData(new Punkt(i, j));
+                ustawAkcje(b);
+                if (((ButtonProperties)buttons[i][j].getUserData()).isStrzelony()) b.setText("X");
+                plansza1.add(b, j, i);
 
             }
         }
     }
 
-    public void dodajButtonyNaPlanszyGracza(GridPane p, int rozmiar) {
+    public void ustawAkcje(Button b) {
+        b.setOnAction((e) -> {
+            Punkt punkt = (Punkt) b.getUserData();
+            Button[][] buttonyPrzeciwnika = gracz == 1 ? ustawienia.getPlanszaGracza2() : ustawienia.getPlanszaGracza1();
+            Button button = buttonyPrzeciwnika[punkt.getX()][punkt.getY()];
+            if (((ButtonProperties) button.getUserData()).isStrzelony()) return;
+            ((ButtonProperties) button.getUserData()).setStrzelony(true);
+            if (czyGraSkonczona()) {
+                Main.ustawScene(Main.oknoGlowne);
+                return;
+            }
+            button.setText("X");
+            gracz = gracz == 1 ? 2 : 1;
+            plansza1.getChildren().clear();
+            plansza2.getChildren().clear();
+            dodajButtonyNaPlanszyPrzeciwnika(ustawienia.getRozmiarPlansz());
+            dodajButtonyNaPlanszyGracza(ustawienia.getRozmiarPlansz());
+        });
+    }
+
+    private boolean czyGraSkonczona() {
+        Button[][] buttonyPrzeciwnika = gracz == 1 ? ustawienia.getPlanszaGracza2() : ustawienia.getPlanszaGracza1();
+        for (var buttons : buttonyPrzeciwnika) {
+            for (var b : buttons) {
+                ButtonProperties ustawienia = (ButtonProperties) b.getUserData();
+                System.out.println(ustawienia);
+                if (ustawienia.isZajety() && !ustawienia.isStrzelony()) return false;
+            }
+        }
+        return true;
+    }
+
+
+    public void dodajButtonyNaPlanszyGracza(int rozmiar) {
         for (int i = 0; i < rozmiar; i++) {
             for (int j = 0; j < rozmiar; j++) {
-                Button b = ustawienia.getPlanszaGracza1()[i][j];
-                b.setDisable(true);
-                p.add(b, j, i);
+                Button b = gracz == 1 ? ustawienia.getPlanszaGracza1()[i][j] : ustawienia.getPlanszaGracza2()[i][j];
+//                b.setDisable(true);
+                plansza2.add(b, j, i);
             }
         }
     }
