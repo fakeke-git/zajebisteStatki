@@ -1,6 +1,7 @@
 package com.testowanie.controller;
 
 import com.testowanie.Main;
+import com.testowanie.utils.ButtonProperties;
 import com.testowanie.utils.Ustawienia;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -149,53 +150,7 @@ public class UstawianieStatkowController {
 		}
 	}
 
-	private class ButtonProperties {
-
-		private int x;
-		private int y;
-		private boolean zajety;
-		private boolean strzelony;
-
-		public ButtonProperties(int x, int y, boolean zajety, boolean strzelony) {
-			this.x = x;
-			this.y = y;
-			this.zajety = zajety;
-			this.strzelony = strzelony;
-		}
-
-		public int getX() {
-			return x;
-		}
-
-		public void setX(int x) {
-			this.x = x;
-		}
-
-		public int getY() {
-			return y;
-		}
-
-		public void setY(int y) {
-			this.y = y;
-		}
-
-		public boolean isZajety() {
-			return zajety;
-		}
-
-		public void setZajety(boolean zajety) {
-			this.zajety = zajety;
-		}
-
-		public boolean isStrzelony() {
-			return strzelony;
-		}
-
-		public void setStrzelony(boolean strzelony) {
-			this.strzelony = strzelony;
-		}
-
-	}
+	
 
 	private void ustawEventy(Button b) {
 		ustawNajechanie(b);
@@ -216,7 +171,8 @@ public class UstawianieStatkowController {
 
 				if (czyPoziomo) {
 					if (!(iloMasztowy + y > ustawienia.getRozmiarPlansz()) && (!buttonProperties.isZajety())
-							&& !(((ButtonProperties) tablicaPrzyciskow[x][y + iloMasztowy - 1].getUserData()).isZajety())) {
+							&& !(((ButtonProperties) tablicaPrzyciskow[x][y + iloMasztowy - 1].getUserData())
+									.isZajety())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
 							y++;
@@ -226,7 +182,8 @@ public class UstawianieStatkowController {
 						gotoweDoUstawienia = false;
 				} else {
 					if (!(iloMasztowy + x > ustawienia.getRozmiarPlansz()) && (!buttonProperties.isZajety())
-							&& !(((ButtonProperties) tablicaPrzyciskow[x + iloMasztowy - 1][y].getUserData()).isZajety())) {
+							&& !(((ButtonProperties) tablicaPrzyciskow[x + iloMasztowy - 1][y].getUserData())
+									.isZajety())) {
 						for (int k = iloMasztowy; k > 0; k--) {
 							tablicaPrzyciskow[x][y].setStyle("-fx-background-color: coral");
 							x++;
@@ -286,77 +243,12 @@ public class UstawianieStatkowController {
 		b.setOnAction(e -> {
 
 			ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
-			int x = buttonProperties.getX();
-			int y = buttonProperties.getY();
+//			int x = buttonProperties.getX();
+//			int y = buttonProperties.getY();
 
 			if (gotoweDoUstawienia) {
-				for (int k = iloMasztowy; k > 0; k--) {
-					if (czyPoziomo) {
+				zmienZajety(e, true);
 
-						((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
-
-						if (x - 1 >= 0) {
-							((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(true);
-						}
-
-						if (x + 1 < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(true);
-						}
-
-						if (k == iloMasztowy) {
-							for (int i = -1; i <= 1; i++) {
-								if (y - 1 >= 0 && x + i >= 0 && x + i < ustawienia.getRozmiarPlansz()) {
-									((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(true);
-								}
-
-							}
-						}
-
-						if (k == 1) {
-							for (int i = -1; i <= 1; i++) {
-								if (y + 1 < ustawienia.getRozmiarPlansz() && x + i >= 0
-										&& x + i < ustawienia.getRozmiarPlansz()) {
-									((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(true);
-								}
-
-							}
-						}
-
-						y++;
-					} else {
-
-						((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
-
-						if (y - 1 >= 0) {
-							((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(true);
-						}
-
-						if (y + 1 < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(true);
-						}
-
-						if (k == iloMasztowy) {
-							for (int i = -1; i <= 1; i++) {
-								if (x - 1 >= 0 && y + i >= 0 && y + i < ustawienia.getRozmiarPlansz()) {
-									((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(true);
-								}
-
-							}
-						}
-
-						if (k == 1) {
-							for (int i = -1; i <= 1; i++) {
-								if (x + 1 < ustawienia.getRozmiarPlansz() && y + i >= 0
-										&& y + i < ustawienia.getRozmiarPlansz()) {
-									((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(true);
-								}
-
-							}
-						}
-
-						x++;
-					}
-				}
 				czyUstawianie = false;
 				gotoweDoUstawienia = false;
 				switch (iloMasztowy) {
@@ -375,8 +267,93 @@ public class UstawianieStatkowController {
 				default:
 					break;
 				}
+
+				return;
+			}
+
+			if ((!czyUstawianie) && (buttonProperties.isZajety()) && b.getStyle().matches(".*coral$")) {
+				System.out.println("Kliknieto na zajete pole.");
+				System.out.println(b.getStyle());
+
 			}
 		});
+
+	}
+
+	private void zmienZajety(Event e, boolean czyZajety) {
+
+		ButtonProperties buttonProperties = (ButtonProperties) ((Button) e.getSource()).getUserData();
+		int x = buttonProperties.getX();
+		int y = buttonProperties.getY();
+
+		for (int k = iloMasztowy; k > 0; k--) {
+			if (czyPoziomo) {
+
+				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
+
+				if (x - 1 >= 0) {
+					((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(true);
+				}
+
+				if (x + 1 < ustawienia.getRozmiarPlansz()) {
+					((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(true);
+				}
+
+				if (k == iloMasztowy) {
+					for (int i = -1; i <= 1; i++) {
+						if (y - 1 >= 0 && x + i >= 0 && x + i < ustawienia.getRozmiarPlansz()) {
+							((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(true);
+						}
+
+					}
+				}
+
+				if (k == 1) {
+					for (int i = -1; i <= 1; i++) {
+						if (y + 1 < ustawienia.getRozmiarPlansz() && x + i >= 0
+								&& x + i < ustawienia.getRozmiarPlansz()) {
+							((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(true);
+						}
+
+					}
+				}
+
+				y++;
+			} else {
+
+				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setZajety(true);
+
+				if (y - 1 >= 0) {
+					((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(true);
+				}
+
+				if (y + 1 < ustawienia.getRozmiarPlansz()) {
+					((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(true);
+				}
+
+				if (k == iloMasztowy) {
+					for (int i = -1; i <= 1; i++) {
+						if (x - 1 >= 0 && y + i >= 0 && y + i < ustawienia.getRozmiarPlansz()) {
+							((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(true);
+						}
+
+					}
+				}
+
+				if (k == 1) {
+					for (int i = -1; i <= 1; i++) {
+						if (x + 1 < ustawienia.getRozmiarPlansz() && y + i >= 0
+								&& y + i < ustawienia.getRozmiarPlansz()) {
+							((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(true);
+						}
+
+					}
+				}
+
+				x++;
+			}
+		}
+
 	}
 
 }
