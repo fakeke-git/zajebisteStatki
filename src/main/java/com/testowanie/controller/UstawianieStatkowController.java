@@ -107,11 +107,11 @@ public class UstawianieStatkowController {
 	}
 
 	public void dalej(Event e) throws IOException {
-		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
 		Node node = (Node) e.getSource();
 		Stage stage = (Stage) node.getScene().getWindow();
 		ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
 		ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
+		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
 
 		stage.setScene(gierka);
 	}
