@@ -85,7 +85,7 @@ public class UstawianieStatkowController {
 				b.setPrefHeight(ph);
 				p.add(b, j, i);
 
-				b.setUserData(new ButtonProperties(i, j, false, false, false));
+				b.setUserData(new ButtonProperties(i, j, false, false, false, false));
 
 				ustawEventy(b);
 
@@ -272,14 +272,16 @@ public class UstawianieStatkowController {
 				int tempX = x;
 				int tempY = y;
 				boolean tempCzyPoziomo = true;
-				while ((tempY + 1 < ustawienia.getRozmiarPlansz()) && (((ButtonProperties) tablicaPrzyciskow[tempX][tempY + 1].getUserData()).isZajety()
-						&& tablicaPrzyciskow[tempX][tempY + 1].getStyle().matches(".*coral$"))) {
+				while ((tempY + 1 < ustawienia.getRozmiarPlansz())
+						&& (((ButtonProperties) tablicaPrzyciskow[tempX][tempY + 1].getUserData()).isZajety()
+								&& tablicaPrzyciskow[tempX][tempY + 1].getStyle().matches(".*coral$"))) {
 					tempY++;
 					tempCount++;
 					tempCzyPoziomo = true;
 				}
-				while ((tempX + 1 < ustawienia.getRozmiarPlansz()) && (((ButtonProperties) tablicaPrzyciskow[tempX + 1][tempY].getUserData()).isZajety()
-						&& tablicaPrzyciskow[tempX + 1][tempY].getStyle().matches(".*coral$"))) {
+				while ((tempX + 1 < ustawienia.getRozmiarPlansz())
+						&& (((ButtonProperties) tablicaPrzyciskow[tempX + 1][tempY].getUserData()).isZajety()
+								&& tablicaPrzyciskow[tempX + 1][tempY].getStyle().matches(".*coral$"))) {
 					tempX++;
 					tempCount++;
 					tempCzyPoziomo = false;
@@ -292,16 +294,22 @@ public class UstawianieStatkowController {
 				System.out.println("Długość statku: " + tempCount);
 				System.out.println("Orientacja statku(czy poziomo): " + tempCzyPoziomo);
 
-				
 				czyUstawianie = true;
 				iloMasztowy = tempCount;
 				czyPoziomo = tempCzyPoziomo;
 				zmienZajety(x, y, false);
 				czyszczenie(tablicaPrzyciskow[x][y]);
 				zmienLiczbeDostepnychStatkow(iloMasztowy, 1);
-				
 
 			}
+
+//			for(var przycisk : tablicaPrzyciskow) {
+//				for(var buton : przycisk) {
+//					System.out.println(buton.getUserData());
+//				}
+//			}
+
+			System.out.println(b.getUserData());
 		});
 
 	}
@@ -317,17 +325,53 @@ public class UstawianieStatkowController {
 				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setCzyMaStatek(czyZajety);
 
 				if (x - 1 >= 0) {
-					((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(czyZajety);
+					if (czyZajety) {
+						if (((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).isZajety())
+							((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setPodwojnieZajety(true);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(true);
+					} else {
+						if (((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).isPodwojnieZajety())
+							((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setPodwojnieZajety(false);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x - 1][y].getUserData()).setZajety(false);
+					}
+
 				}
 
 				if (x + 1 < ustawienia.getRozmiarPlansz()) {
-					((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(czyZajety);
+					if (czyZajety) {
+						if (((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).isZajety())
+							((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setPodwojnieZajety(true);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(true);
+					} else {
+						if (((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).isPodwojnieZajety())
+							((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setPodwojnieZajety(false);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x + 1][y].getUserData()).setZajety(false);
+					}
+
 				}
 
 				if (k == iloMasztowy) {
 					for (int i = -1; i <= 1; i++) {
 						if (y - 1 >= 0 && x + i >= 0 && x + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(czyZajety);
+							if (czyZajety) {
+								if (((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).isZajety())
+									((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData())
+											.setPodwojnieZajety(true);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(true);
+							} else {
+								if (((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData())
+										.isPodwojnieZajety())
+									((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData())
+											.setPodwojnieZajety(false);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x + i][y - 1].getUserData()).setZajety(false);
+							}
+
 						}
 
 					}
@@ -337,7 +381,21 @@ public class UstawianieStatkowController {
 					for (int i = -1; i <= 1; i++) {
 						if (y + 1 < ustawienia.getRozmiarPlansz() && x + i >= 0
 								&& x + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(czyZajety);
+							if (czyZajety) {
+								if (((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).isZajety())
+									((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData())
+											.setPodwojnieZajety(true);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(true);
+							} else {
+								if (((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData())
+										.isPodwojnieZajety())
+									((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData())
+											.setPodwojnieZajety(false);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x + i][y + 1].getUserData()).setZajety(false);
+							}
+
 						}
 
 					}
@@ -350,17 +408,53 @@ public class UstawianieStatkowController {
 				((ButtonProperties) tablicaPrzyciskow[x][y].getUserData()).setCzyMaStatek(czyZajety);
 
 				if (y - 1 >= 0) {
-					((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(czyZajety);
+					if (czyZajety) {
+						if (((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).isZajety())
+							((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setPodwojnieZajety(true);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(true);
+					} else {
+						if (((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).isPodwojnieZajety())
+							((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setPodwojnieZajety(false);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x][y - 1].getUserData()).setZajety(false);
+					}
+
 				}
 
 				if (y + 1 < ustawienia.getRozmiarPlansz()) {
-					((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(czyZajety);
+					if (czyZajety) {
+						if (((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).isZajety())
+							((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setPodwojnieZajety(true);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(true);
+					} else {
+						if (((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).isPodwojnieZajety())
+							((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setPodwojnieZajety(false);
+						else
+							((ButtonProperties) tablicaPrzyciskow[x][y + 1].getUserData()).setZajety(false);
+					}
+
 				}
 
 				if (k == iloMasztowy) {
 					for (int i = -1; i <= 1; i++) {
 						if (x - 1 >= 0 && y + i >= 0 && y + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(czyZajety);
+							if (czyZajety) {
+								if (((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).isZajety())
+									((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData())
+											.setPodwojnieZajety(true);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(true);
+							} else {
+								if (((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData())
+										.isPodwojnieZajety())
+									((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData())
+											.setPodwojnieZajety(false);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x - 1][y + i].getUserData()).setZajety(false);
+							}
+
 						}
 
 					}
@@ -370,7 +464,21 @@ public class UstawianieStatkowController {
 					for (int i = -1; i <= 1; i++) {
 						if (x + 1 < ustawienia.getRozmiarPlansz() && y + i >= 0
 								&& y + i < ustawienia.getRozmiarPlansz()) {
-							((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(czyZajety);
+							if (czyZajety) {
+								if (((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).isZajety())
+									((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData())
+											.setPodwojnieZajety(true);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(true);
+							} else {
+								if (((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData())
+										.isPodwojnieZajety())
+									((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData())
+											.setPodwojnieZajety(false);
+								else
+									((ButtonProperties) tablicaPrzyciskow[x + 1][y + i].getUserData()).setZajety(false);
+							}
+
 						}
 
 					}
@@ -381,7 +489,7 @@ public class UstawianieStatkowController {
 		}
 
 	}
-	
+
 	private void zmienLiczbeDostepnychStatkow(int iloMasztowy, int ileDodac) {
 		switch (iloMasztowy) {
 		case 1:
