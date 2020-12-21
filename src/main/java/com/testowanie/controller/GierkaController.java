@@ -44,6 +44,7 @@ public class GierkaController {
         dodajP(plansza2, ustawienia.getRozmiarPlansz());
         dodajButtonyNaPlanszyPrzeciwnika(ustawienia.getRozmiarPlansz());
         dodajButtonyNaPlanszyGracza(ustawienia.getRozmiarPlansz());
+        wyswietlPrzejscieMiedzyTurami(null);
     }
 
     public void dodajP(GridPane p, int rozmiar) {
@@ -133,7 +134,7 @@ public class GierkaController {
 
     private void wyswietlPrzejscieMiedzyTurami(Punkt punktOstatniegoStrzalu) {
         Button[][] plansza =  gracz == 1 ? ustawienia.getPlanszaGracza1() : ustawienia.getPlanszaGracza2();
-        boolean zniszczonoStatek = Stateczek.czyZatonal(plansza, punktOstatniegoStrzalu, "");
+        boolean zniszczonoStatek = punktOstatniegoStrzalu != null ? Stateczek.czyZatonal(plansza, punktOstatniegoStrzalu, "") : false;
         planszaGraczaKontener.setMaxWidth(0.0);
         planszaPrzeciwnikaKontener.setMaxWidth(0.0);
         planszaGraczaKontener.setVisible(false);
