@@ -22,6 +22,7 @@ import java.io.IOException;
 public class GierkaController {
     private Ustawienia ustawienia;
     private int gracz = 1;
+    private Komputer komputer = null;
 
     @FXML
     private GridPane plansza1;
@@ -39,15 +40,17 @@ public class GierkaController {
     private GridPane przejscieMiedzyTurami;
 
     public void initialize() {
-    	ustawienia = (Ustawienia) Main.primaryStage.getUserData();
+        ustawienia = (Ustawienia) Main.primaryStage.getUserData();
+        if (ustawienia.isCzyGraZKomputerem()) komputer = new Komputer(ustawienia.getPlanszaGracza1());
         dodajP(plansza1, ustawienia.getRozmiarPlansz());
         dodajP(plansza2, ustawienia.getRozmiarPlansz());
         dodajButtonyNaPlanszyPrzeciwnika(ustawienia.getRozmiarPlansz());
         dodajButtonyNaPlanszyGracza(ustawienia.getRozmiarPlansz());
+        if (!ustawienia.isCzyGraZKomputerem()) wyswietlPrzejscieMiedzyTurami(null);
     }
 
     public void dodajP(GridPane p, int rozmiar) {
-    	for (int i = 0; i < rozmiar; i++) {
+        for (int i = 0; i < rozmiar; i++) {
             ColumnConstraints col = new ColumnConstraints();
             RowConstraints row = new RowConstraints();
             col.setPercentWidth(100 / rozmiar);
@@ -58,19 +61,19 @@ public class GierkaController {
     }
 
     public void dodajButtonyNaPlanszyPrzeciwnika(int rozmiar) {
-        Button buttons[][] =  gracz == 1 ? ustawienia.getPlanszaGracza2() : ustawienia.getPlanszaGracza1();
+        Button buttons[][] = gracz == 1 ? ustawienia.getPlanszaGracza2() : ustawienia.getPlanszaGracza1();
         for (int i = 0; i < rozmiar; i++) {
             for (int j = 0; j < rozmiar; j++) {
                 double width = plansza1.getPrefWidth();
                 double height = plansza1.getPrefHeight();
-                double pv = width / rozmiar ;
+                double pv = width / rozmiar;
                 double ph = height / rozmiar;
                 Button b = new Button();
                 b.setPrefWidth(pv);
                 b.setPrefHeight(ph);
                 b.setUserData(new Punkt(i, j));
                 ustawAkcje(b);
-                if (((ButtonProperties)buttons[i][j].getUserData()).isStrzelony()) b.setText("X");
+                if (((ButtonProperties) buttons[i][j].getUserData()).isStrzelony()) b.setText("X");
                 plansza1.add(b, j, i);
 
             }
@@ -85,19 +88,26 @@ public class GierkaController {
             if (((ButtonProperties) button.getUserData()).isStrzelony()) return;
             ((ButtonProperties) button.getUserData()).setStrzelony(true);
             if (czyGraSkonczona()) {
-                Node node = (Node) e.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                Scene ekranKoncowy = null;
-                stage.setUserData(new DaneKoncaGry(ustawienia.isCzyGraZKomputerem(), gracz));
                 try {
-                    ekranKoncowy = new Scene(FXMLLoader.load(getClass().getResource("/koniec-gry.fxml")), 900, 400);
+                    doKoniecGry(e);
+                    return;
                 } catch (IOException ex) {
-                    Main.ustawScene(Main.oknoGlowne);
                 }
-                stage.setScene(ekranKoncowy);
-                return;
             }
             button.setText("X");
+
+            if (ustawienia.isCzyGraZKomputerem()) {
+                komputer.strzel();
+                gracz = gracz == 1 ? 2 : 1;
+                if (czyGraSkonczona()) {
+                    try {
+                        doKoniecGry(e);
+                        return;
+                    } catch (IOException ex) {
+                    }
+                }
+            }
+
             gracz = gracz == 1 ? 2 : 1;
 
             plansza1.getChildren().clear();
@@ -105,8 +115,16 @@ public class GierkaController {
             dodajButtonyNaPlanszyPrzeciwnika(ustawienia.getRozmiarPlansz());
             dodajButtonyNaPlanszyGracza(ustawienia.getRozmiarPlansz());
 
-            wyswietlPrzejscieMiedzyTurami(punkt);
+            if (!ustawienia.isCzyGraZKomputerem()) wyswietlPrzejscieMiedzyTurami(punkt);
         });
+    }
+
+    private void doKoniecGry(Event e) throws IOException {
+        Node node = (Node) e.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        stage.setUserData(new DaneKoncaGry(ustawienia.isCzyGraZKomputerem(), gracz));
+        Scene ekranKoncowy = new Scene(FXMLLoader.load(getClass().getResource("/koniec-gry.fxml")), 900, 400);
+        stage.setScene(ekranKoncowy);
     }
 
     private boolean czyGraSkonczona() {
@@ -132,8 +150,8 @@ public class GierkaController {
     }
 
     private void wyswietlPrzejscieMiedzyTurami(Punkt punktOstatniegoStrzalu) {
-        Button[][] plansza =  gracz == 1 ? ustawienia.getPlanszaGracza1() : ustawienia.getPlanszaGracza2();
-        boolean zniszczonoStatek = Stateczek.czyZatonal(plansza, punktOstatniegoStrzalu, "");
+        Button[][] plansza = gracz == 1 ? ustawienia.getPlanszaGracza1() : ustawienia.getPlanszaGracza2();
+        boolean zniszczonoStatek = punktOstatniegoStrzalu != null ? Stateczek.czyZatonal(plansza, punktOstatniegoStrzalu, "") : false;
         planszaGraczaKontener.setMaxWidth(0.0);
         planszaPrzeciwnikaKontener.setMaxWidth(0.0);
         planszaGraczaKontener.setVisible(false);

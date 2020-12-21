@@ -2,6 +2,7 @@ package com.testowanie.utils;
 
 import javafx.scene.control.Button;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class Komputer {
@@ -9,7 +10,7 @@ public class Komputer {
     private Button[][] kopiaPlanszyGracza;
     private int rozmiarPlanszy;
     private boolean znalezionoStatek = false;
-    private List<Punkt> strzalyWStatek;
+    private List<Punkt> strzalyWStatek = new LinkedList<>();
 
     public Komputer(Button[][] buttonyGracza) {
         this.buttonyGracza = buttonyGracza;

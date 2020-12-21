@@ -3,6 +3,11 @@
     -fx-cursor: hand;
 }
 
+.przejscieMiedzyTuramiLabel {
+    -fx-font-size: 24;
+    -fx-font-weight: bold;
+}
+
 .borderek {
     -fx-border-color: black;
     -fx-border-style: solid;
@@ -12,6 +17,4 @@
 
 .button {
     -fx-cursor: hand;
-    /*-fx-padding: 25%;*/
-    /*-fx-background-color: black;*/
 }

@@ -19,13 +19,15 @@ public class WyborPrzeciwnikaController {
 		Node node = (Node) e.getSource();
 		Stage stage = (Stage) node.getScene().getWindow();
 		((Ustawienia) stage.getUserData()).setCzyGraZKomputerem(true);
-		doGierki(e);
+		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
+		stage.setScene(gierka);
 	}
 
 	public void doGierki(Event event) throws IOException{
-		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
 		Node node = (Node) event.getSource();
 		Stage stage = (Stage) node.getScene().getWindow();
+		((Ustawienia) stage.getUserData()).setCzyGraZKomputerem(false);
+		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
 		stage.setScene(gierka);
 	}
 

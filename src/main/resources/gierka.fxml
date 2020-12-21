@@ -5,48 +5,72 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1"
-      xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.testowanie.controller.GierkaController">
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" stylesheets="@styles.css" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.testowanie.controller.GierkaController">
     <children>
         <VBox fx:id="planszaPrzeciwnikaKontener" prefHeight="400" prefWidth="400">
             <children>
-                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="21.0" prefWidth="277.0"
-                       text="Plansza przeciwnika" textAlignment="CENTER">
+                <Label alignment="CENTER_RIGHT" contentDisplay="RIGHT" prefHeight="21.0" prefWidth="277.0" text="Plansza przeciwnika" textAlignment="CENTER">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                 </Label>
-                <GridPane fx:id="plansza1" prefHeight="400" prefWidth="400"/>
+                <GridPane fx:id="plansza1" prefHeight="400" prefWidth="400" />
             </children>
             <HBox.margin>
-                <Insets right="50.0"/>
+                <Insets right="50.0" />
             </HBox.margin>
         </VBox>
-        <VBox fx:id="planszaGraczaKontener" prefHeight="400" prefWidth="400" >
+        <VBox fx:id="planszaGraczaKontener" prefHeight="400" prefWidth="400">
             <children>
                 <Label prefHeight="21.0" prefWidth="346.0" text="Plansza gracza">
                     <font>
-                        <Font size="18.0"/>
+                        <Font size="18.0" />
                     </font>
                     <padding>
-                        <Insets left="120.0"/>
+                        <Insets left="120.0" />
                     </padding>
                 </Label>
-                <GridPane fx:id="plansza2" prefHeight="400" prefWidth="400"/>
+                <GridPane fx:id="plansza2" prefHeight="400" prefWidth="400" />
             </children>
             <HBox.margin>
-                <Insets left="50.0"/>
+                <Insets left="50.0" />
             </HBox.margin>
         </VBox>
-        <GridPane visible="false" maxWidth="0" fx:id="przejscieMiedzyTurami" alignment="CENTER" prefHeight="400.0" prefWidth="100.0">
+        <GridPane fx:id="przejscieMiedzyTurami" alignment="CENTER" maxWidth="0" prefHeight="400.0" prefWidth="900.0" visible="false">
             <children>
-                <Label fx:id="czyZniszczonoStatekLabel" GridPane.rowIndex="0" GridPane.columnIndex="0" GridPane.columnSpan="2" text="Zniszczono statek"/>
-                <Label GridPane.rowIndex="1" GridPane.columnIndex="0" text="Turę rozpoczyna:"/>
-                <Label fx:id="turaGraczaLabel" GridPane.rowIndex="1" GridPane.columnIndex="1" text=""/>
-                <Label styleClass="hoverowyLabel" GridPane.rowIndex="2" GridPane.columnIndex="0" GridPane.columnSpan="2"
-                       text="Rozpocznij turę" onMouseClicked="#ukryjPrzejscieMiedzyTurami"/>
+                <Label fx:id="czyZniszczonoStatekLabel" text="Zniszczono statek" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="0">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label text="Turę rozpoczyna:" GridPane.columnIndex="0" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label fx:id="turaGraczaLabel" text="" GridPane.columnIndex="1" GridPane.halignment="CENTER" GridPane.rowIndex="1">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
+                <Label onMouseClicked="#ukryjPrzejscieMiedzyTurami" styleClass="hoverowyLabel,przejscieMiedzyTuramiLabel" text="Rozpocznij turę" GridPane.columnIndex="0" GridPane.columnSpan="2" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+                    <font>
+                        <Font size="24.0" />
+                    </font>
+                </Label>
             </children>
+         <columnConstraints>
+            <ColumnConstraints />
+            <ColumnConstraints />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints />
+            <RowConstraints />
+            <RowConstraints />
+         </rowConstraints>
+         <HBox.margin>
+            <Insets left="-300.0" />
+         </HBox.margin>
         </GridPane>
     </children>
 </HBox>
