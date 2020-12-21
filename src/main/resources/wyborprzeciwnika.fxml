@@ -29,7 +29,7 @@
             <Insets bottom="10.0" />
          </GridPane.margin>
       </Label>
-      <Label onMouseClicked="#doGierki" alignment="CENTER" prefHeight="90.0" prefWidth="250.0" styleClass="hoverowyLabel, borderek" text="Gra z komputerem" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+      <Label onMouseClicked="#doGierkiZKomputerem" alignment="CENTER" prefHeight="90.0" prefWidth="250.0" styleClass="hoverowyLabel, borderek" text="Gra z komputerem" textAlignment="CENTER" wrapText="true" GridPane.halignment="CENTER" GridPane.rowIndex="2">
          <font>
             <Font size="24.0" />
          </font>
