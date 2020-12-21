@@ -248,22 +248,7 @@ public class UstawianieStatkowController {
 
 				czyUstawianie = false;
 				gotoweDoUstawienia = false;
-				switch (iloMasztowy) {
-				case 1:
-					liczbaJeden.setText(Integer.toString(Integer.valueOf(liczbaJeden.getText()) - 1));
-					break;
-				case 2:
-					liczbaDwa.setText(Integer.toString(Integer.valueOf(liczbaDwa.getText()) - 1));
-					break;
-				case 3:
-					liczbaTrzy.setText(Integer.toString(Integer.valueOf(liczbaTrzy.getText()) - 1));
-					break;
-				case 4:
-					liczbaCztero.setText(Integer.toString(Integer.valueOf(liczbaCztero.getText()) - 1));
-					break;
-				default:
-					break;
-				}
+				zmienLiczbeDostepnychStatkow(iloMasztowy, -1);
 
 				return;
 			}
@@ -304,13 +289,17 @@ public class UstawianieStatkowController {
 				System.out.println(b.getStyle());
 				System.out.println("X początkowy: " + x);
 				System.out.println("Y początkowy: " + y);
-				System.out.println(tempCount);
+				System.out.println("Długość statku: " + tempCount);
+				System.out.println("Orientacja statku(czy poziomo): " + tempCzyPoziomo);
 
-				zmienZajety(x, y, false);
+				
 				czyUstawianie = true;
 				iloMasztowy = tempCount;
-				czyszczenie(tablicaPrzyciskow[x][y]);
 				czyPoziomo = tempCzyPoziomo;
+				zmienZajety(x, y, false);
+				czyszczenie(tablicaPrzyciskow[x][y]);
+				zmienLiczbeDostepnychStatkow(iloMasztowy, 1);
+				
 
 			}
 		});
@@ -391,6 +380,25 @@ public class UstawianieStatkowController {
 			}
 		}
 
+	}
+	
+	private void zmienLiczbeDostepnychStatkow(int iloMasztowy, int ileDodac) {
+		switch (iloMasztowy) {
+		case 1:
+			liczbaJeden.setText(Integer.toString(Integer.valueOf(liczbaJeden.getText()) + ileDodac));
+			break;
+		case 2:
+			liczbaDwa.setText(Integer.toString(Integer.valueOf(liczbaDwa.getText()) + ileDodac));
+			break;
+		case 3:
+			liczbaTrzy.setText(Integer.toString(Integer.valueOf(liczbaTrzy.getText()) + ileDodac));
+			break;
+		case 4:
+			liczbaCztero.setText(Integer.toString(Integer.valueOf(liczbaCztero.getText()) + ileDodac));
+			break;
+		default:
+			break;
+		}
 	}
 
 }
