@@ -20,6 +20,8 @@ public class Ustawienia {
 
 	private Button[][] planszaGracza2 = null;
 
+	private boolean czyGraZKomputerem = false;
+
 	public Ustawienia(int rozmiarPlansz, int iloscStatkowCztero, int iloscStatkowTrzy, int iloscStatkowDwa,
 			int iloscStatkowJeden) {
 		this.rozmiarPlansz = rozmiarPlansz;
@@ -83,6 +85,14 @@ public class Ustawienia {
 
 	public void setPlanszaGracza2(Button[][] planszaGracza2) {
 		this.planszaGracza2 = planszaGracza2;
+	}
+
+	public boolean isCzyGraZKomputerem() {
+		return czyGraZKomputerem;
+	}
+
+	public void setCzyGraZKomputerem(boolean czyGraZKomputerem) {
+		this.czyGraZKomputerem = czyGraZKomputerem;
 	}
 
 	@Override
