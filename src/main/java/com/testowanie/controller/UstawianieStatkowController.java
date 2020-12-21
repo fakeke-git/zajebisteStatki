@@ -113,7 +113,7 @@ public class UstawianieStatkowController {
 		if (ustawienia.getPlanszaGracza1() == null) {
 			ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
 			if (ustawienia.isCzyGraZKomputerem()) {
-				ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
+				ustawienia.setPlanszaGracza2(tablicaPrzyciskow.clone());
 				Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
 				stage.setScene(gierka);
 			} else {
