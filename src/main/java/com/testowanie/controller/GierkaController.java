@@ -85,14 +85,14 @@ public class GierkaController {
             Punkt punkt = (Punkt) b.getUserData();
             Button[][] buttonyPrzeciwnika = gracz == 1 ? ustawienia.getPlanszaGracza2() : ustawienia.getPlanszaGracza1();
             Button button = buttonyPrzeciwnika[punkt.getX()][punkt.getY()];
+
             if (((ButtonProperties) button.getUserData()).isStrzelony()) return;
+
             ((ButtonProperties) button.getUserData()).setStrzelony(true);
+
             if (czyGraSkonczona()) {
-                try {
-                    doKoniecGry(e);
-                    return;
-                } catch (IOException ex) {
-                }
+                doKoniecGry(e);
+                return;
             }
             button.setText("X");
 
@@ -100,11 +100,8 @@ public class GierkaController {
                 komputer.strzel();
                 gracz = gracz == 1 ? 2 : 1;
                 if (czyGraSkonczona()) {
-                    try {
-                        doKoniecGry(e);
-                        return;
-                    } catch (IOException ex) {
-                    }
+                    doKoniecGry(e);
+                    return;
                 }
             }
 
@@ -119,12 +116,16 @@ public class GierkaController {
         });
     }
 
-    private void doKoniecGry(Event e) throws IOException {
-        Node node = (Node) e.getSource();
-        Stage stage = (Stage) node.getScene().getWindow();
-        stage.setUserData(new DaneKoncaGry(ustawienia.isCzyGraZKomputerem(), gracz));
-        Scene ekranKoncowy = new Scene(FXMLLoader.load(getClass().getResource("/koniec-gry.fxml")), 900, 400);
-        stage.setScene(ekranKoncowy);
+    private void doKoniecGry(Event e) {
+        try {
+            Node node = (Node) e.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            stage.setUserData(new DaneKoncaGry(ustawienia.isCzyGraZKomputerem(), gracz));
+            Scene ekranKoncowy = new Scene(FXMLLoader.load(getClass().getResource("/koniec-gry.fxml")), 900, 400);
+            stage.setScene(ekranKoncowy);
+        } catch (IOException ex) {
+        }
+
     }
 
     private boolean czyGraSkonczona() {

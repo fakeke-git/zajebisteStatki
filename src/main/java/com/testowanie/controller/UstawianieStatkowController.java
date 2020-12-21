@@ -2,6 +2,7 @@ package com.testowanie.controller;
 
 import com.testowanie.Main;
 import com.testowanie.utils.ButtonProperties;
+import com.testowanie.utils.Stateczek;
 import com.testowanie.utils.Ustawienia;
 import javafx.event.Event;
 import javafx.fxml.FXML;
@@ -71,23 +72,28 @@ public class UstawianieStatkowController {
 		}
 	}
 
-	public void asd(GridPane p, int rozmiar) {
-		for (int i = 0; i < rozmiar; i++) {
-			for (int j = 0; j < rozmiar; j++) {
-				double width = p.getPrefWidth();
-				double height = p.getPrefHeight();
-				double pv = width / rozmiar;
-				double ph = height / rozmiar;
-				Button b = new Button();
-				tablicaPrzyciskow[i][j] = b;
-				b.setStyle("-fx-background-color: aqua");
-				b.setPrefWidth(pv);
-				b.setPrefHeight(ph);
-				p.add(b, j, i);
+    public void asd(GridPane p, int rozmiar) {
+        tablicaPrzyciskow = generujPrzyciski(p.getPrefWidth(), p.getPrefHeight(), rozmiar);
+        for (int i = 0; i < rozmiar; i++) {
+            for (int j = 0; j < rozmiar; j++) {
+                p.add(tablicaPrzyciskow[i][j], j, i);
+            }
+       /* for (int i = 0; i < rozmiar; i++) {
+            for (int j = 0; j < rozmiar; j++) {
+                double width = p.getPrefWidth();
+                double height = p.getPrefHeight();
+                double pv = width / rozmiar;
+                double ph = height / rozmiar;
+                Button b = new Button();
+                tablicaPrzyciskow[i][j] = b;
+                b.setStyle("-fx-background-color: aqua");
+                b.setPrefWidth(pv);
+                b.setPrefHeight(ph);
+                p.add(b, j, i);
 
-				b.setUserData(new ButtonProperties(i, j, false, false, false, false));
+                b.setUserData(new ButtonProperties(i, j, false, false, false, false));
 
-				ustawEventy(b);
+                ustawEventy(b);
 
 //                b.setOnAction((e) -> {
 //                    b.setUserData(!((Boolean) b.getUserData()));
@@ -95,37 +101,64 @@ public class UstawianieStatkowController {
 //                    else b.setStyle("-fx-background-color: aqua");
 //                });
 
-			}
-		}
-	}
+            }*/
+        }
+    }
 
-	public void cofnij(Event e) throws IOException {
-		Scene wyborPrzeciwnika = new Scene(FXMLLoader.load(getClass().getResource("/wyborprzeciwnika.fxml")), 900, 400);
-		Node node = (Node) e.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
+    public Button[][] generujPrzyciski(double szerokoscRodzica, double wysokoscRodzica, int rozmiar) {
+        Button[][] tablicaPrzyciskow = new Button[rozmiar][rozmiar];
+        for (int i = 0; i < rozmiar; i++) {
+            for (int j = 0; j < rozmiar; j++) {
+                double pv = szerokoscRodzica / rozmiar;
+                double ph = wysokoscRodzica / rozmiar;
+                Button b = new Button();
+                tablicaPrzyciskow[i][j] = b;
+                b.setStyle("-fx-background-color: aqua");
+                b.setPrefWidth(pv);
+                b.setPrefHeight(ph);
 
-		stage.setScene(wyborPrzeciwnika);
-	}
+                b.setUserData(new ButtonProperties(i, j, false, false, false, false));
 
-	public void dalej(Event e) throws IOException {
-		Node node = (Node) e.getSource();
-		Stage stage = (Stage) node.getScene().getWindow();
-		if (ustawienia.getPlanszaGracza1() == null) {
-			ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
-			if (ustawienia.isCzyGraZKomputerem()) {
-				ustawienia.setPlanszaGracza2(tablicaPrzyciskow.clone());
-				Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
-				stage.setScene(gierka);
-			} else {
-				Scene ustawianieStatkow = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
-				stage.setScene(ustawianieStatkow);
-			}
-		} else {
-			ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
-			Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
-			stage.setScene(gierka);
-		}
-	}
+                ustawEventy(b);
+            }
+        }
+        return tablicaPrzyciskow;
+    }
+
+    public void cofnij(Event e) throws IOException {
+        Scene wyborPrzeciwnika = new Scene(FXMLLoader.load(getClass().getResource("/wyborprzeciwnika.fxml")), 900, 400);
+        Node node = (Node) e.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+
+        stage.setScene(wyborPrzeciwnika);
+    }
+
+    public void dalej(Event e) throws IOException {
+        Node node = (Node) e.getSource();
+        Stage stage = (Stage) node.getScene().getWindow();
+        if (ustawienia.getPlanszaGracza1() == null) {
+            ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
+            if (ustawienia.isCzyGraZKomputerem()) {
+                Button[][] przyciskiKomputera = generujPrzyciski(plansza1.getPrefWidth(), plansza1.getPrefHeight(), ustawienia.getRozmiarPlansz());
+                Stateczek.rozmiescLosowo(przyciskiKomputera,
+                        ustawienia.getIloscStatkowCztero(),
+                        ustawienia.getIloscStatkowTrzy(),
+                        ustawienia.getIloscStatkowDwa(),
+                        ustawienia.getIloscStatkowJeden());
+
+                ustawienia.setPlanszaGracza2(przyciskiKomputera);
+                Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+                stage.setScene(gierka);
+            } else {
+                Scene ustawianieStatkow = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
+                stage.setScene(ustawianieStatkow);
+            }
+        } else {
+            ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
+            Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+            stage.setScene(gierka);
+        }
+    }
 
 	public void ustawStatek(Event e) {
 
