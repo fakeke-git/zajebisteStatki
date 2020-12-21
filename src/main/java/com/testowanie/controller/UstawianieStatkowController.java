@@ -110,10 +110,21 @@ public class UstawianieStatkowController {
 	public void dalej(Event e) throws IOException {
 		Node node = (Node) e.getSource();
 		Stage stage = (Stage) node.getScene().getWindow();
-		ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
-		ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
-		Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
-		stage.setScene(gierka);
+		if (ustawienia.getPlanszaGracza1() == null) {
+			ustawienia.setPlanszaGracza1(tablicaPrzyciskow);
+			if (ustawienia.isCzyGraZKomputerem()) {
+				ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
+				Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+				stage.setScene(gierka);
+			} else {
+				Scene ustawianieStatkow = new Scene(FXMLLoader.load(getClass().getResource("/ustawianie-statkow.fxml")), 900, 400);
+				stage.setScene(ustawianieStatkow);
+			}
+		} else {
+			ustawienia.setPlanszaGracza2(tablicaPrzyciskow);
+			Scene gierka = new Scene(FXMLLoader.load(getClass().getResource("/gierka.fxml")), 900, 400);
+			stage.setScene(gierka);
+		}
 	}
 
 	public void ustawStatek(Event e) {
