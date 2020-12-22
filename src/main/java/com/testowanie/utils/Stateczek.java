@@ -8,26 +8,69 @@ import java.util.List;
 
 public class Stateczek {
     public static void rozmiescLosowo(Button[][] przyciski, int czteromasztowcow, int trzymasztowcow, int dwumasztowcow, int jednomasztowcow) {
-        while (czteromasztowcow > 0) {
-            ustawStatek(przyciski, 4);
-            czteromasztowcow--;
-        }
-        while (trzymasztowcow > 0) {
-            ustawStatek(przyciski, 3);
-            trzymasztowcow--;
-        }
-        while (dwumasztowcow > 0) {
-            ustawStatek(przyciski, 2);
-            dwumasztowcow--;
-        }
-        while (jednomasztowcow > 0) {
-            ustawStatek(przyciski, 1);
-            jednomasztowcow--;
-        }
+        przyciskiDoStanuPoczatkowego(przyciski);
+        boolean czyOk = true;
+        Integer[] maxProb = new Integer[1];
+        int i = 0;
 
+        while (i < czteromasztowcow && czyOk) {
+            maxProb[0] = przyciski.length*przyciski.length;
+            ustawStatek(przyciski, 4, maxProb);
+            if (maxProb[0] < 0) {
+                czyOk = false;
+                break;
+            }
+            i++;
+        }
+        i = 0;
+
+        while (i < trzymasztowcow && czyOk) {
+            maxProb[0] = przyciski.length*przyciski.length;
+            ustawStatek(przyciski, 3, maxProb);
+            if (maxProb[0] < 0) {
+                czyOk = false;
+                break;
+            }
+            i++;
+        }
+        i = 0;
+
+        while (i < dwumasztowcow && czyOk) {
+            maxProb[0] = przyciski.length*przyciski.length;
+            ustawStatek(przyciski, 2, maxProb);
+            if (maxProb[0] < 0) {
+                czyOk = false;
+                break;
+            }
+            i++;
+        }
+        i = 0;
+
+        while (i < jednomasztowcow && czyOk) {
+            maxProb[0] = przyciski.length*przyciski.length;
+            ustawStatek(przyciski, 1, maxProb);
+            if (maxProb[0] < 0) {
+                czyOk = false;
+                break;
+            }
+            i++;
+        }
+        if (!czyOk) rozmiescLosowo(przyciski, czteromasztowcow, trzymasztowcow, dwumasztowcow, jednomasztowcow);
     }
 
-    private static void ustawStatek(Button[][] przyciski, int ileMasztow) {
+    private static void przyciskiDoStanuPoczatkowego(Button[][] tablicaPrzyciskow) {
+        for (var buttons : tablicaPrzyciskow) {
+            for (var b : buttons) {
+                ButtonProperties ustawieniaB = (ButtonProperties) b.getUserData();
+                b.setStyle("-fx-background-color: aqua");
+                ustawieniaB.setCzyMaStatek(false);
+                ustawieniaB.setZajety(false);
+                ustawieniaB.setPodwojnieZajety(false);
+            }
+        }
+    }
+
+    private static void ustawStatek(Button[][] przyciski, int ileMasztow, Integer[] maxProb) {
         List<Punkt> listaPunktow = new ArrayList<>();
         int rozmiar = przyciski.length;
         boolean czyPoziomo;
@@ -35,11 +78,14 @@ public class Stateczek {
         int y;
         do {
             listaPunktow.clear();
+            if (maxProb[0] < 0) return;
 
             do {
+                maxProb[0]--;
+                if (maxProb[0] < 0) return;
                 czyPoziomo = Math.floor(Math.random() * 2) == 1;
-                x = czyPoziomo ? (int) Math.floor(Math.random() * (rozmiar - 4)) : (int) Math.floor(Math.random() * rozmiar);
-                y = !czyPoziomo ? (int) Math.floor(Math.random() * (rozmiar - 4)) : (int) Math.floor(Math.random() * rozmiar);
+                x = czyPoziomo ? (int) Math.floor(Math.random() * (rozmiar - ileMasztow)) : (int) Math.floor(Math.random() * rozmiar);
+                y = !czyPoziomo ? (int) Math.floor(Math.random() * (rozmiar - ileMasztow)) : (int) Math.floor(Math.random() * rozmiar);
             } while (((ButtonProperties) przyciski[x][y].getUserData()).isZajety());
             listaPunktow.add(new Punkt(x, y));
 
@@ -78,12 +124,12 @@ public class Stateczek {
                     ButtonProperties bp = (ButtonProperties) button.getUserData();
                     if (bp.isZajety()) bp.setPodwojnieZajety(true);
                     else bp.setZajety(true);
-                    if (j==0) ((ButtonProperties) button.getUserData()).setCzyMaStatek(true);
+                    if (j == 0) ((ButtonProperties) button.getUserData()).setCzyMaStatek(true);
                 } catch (IndexOutOfBoundsException ex) {
                 }
             }
 
-            if (i == listaPunktow.size()-1) {
+            if (i == listaPunktow.size() - 1) {
                 for (int j = -1; j < 2; j++) {
                     try {
                         ButtonProperties bp = (ButtonProperties) przyciski[czyPoziomo ? x + 1 : x + j][!czyPoziomo ? y + 1 : y + j].getUserData();

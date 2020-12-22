@@ -32,6 +32,14 @@ public class UstawieniaController {
 	@FXML
 	Spinner<Integer> iloscStatkowJeden;
 
+	public void initialize() {
+		rozmiarPlansz.getValueFactory().setValue(10);
+		iloscStatkowCztero.getValueFactory().setValue(1);
+		iloscStatkowTrzy.getValueFactory().setValue(2);
+		iloscStatkowDwa.getValueFactory().setValue(3);
+		iloscStatkowJeden.getValueFactory().setValue(4);
+	}
+
 	public void doWyborPrzeciwnika(Event event) throws IOException{
 
 //    	System.out.println(event);
