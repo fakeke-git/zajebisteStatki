@@ -64,7 +64,9 @@ public class Stateczek {
             if (i == 0) {
                 for (int j = -1; j < 2; j++) {
                     try {
-                        ((ButtonProperties) przyciski[czyPoziomo ? x - 1 : x + j][!czyPoziomo ? y - 1 : y + j].getUserData()).setZajety(true);
+                        ButtonProperties bp = (ButtonProperties) przyciski[czyPoziomo ? x - 1 : x + j][!czyPoziomo ? y - 1 : y + j].getUserData();
+                        if (bp.isZajety()) bp.setPodwojnieZajety(true);
+                        else bp.setZajety(true);
                     } catch (IndexOutOfBoundsException ex) {
                     }
                 }
@@ -73,7 +75,9 @@ public class Stateczek {
             for (int j = -1; j < 2; j++) {
                 try {
                     Button button = przyciski[czyPoziomo ? x : x + j][!czyPoziomo ? y : y + j];
-                    ((ButtonProperties) button.getUserData()).setZajety(true);
+                    ButtonProperties bp = (ButtonProperties) button.getUserData();
+                    if (bp.isZajety()) bp.setPodwojnieZajety(true);
+                    else bp.setZajety(true);
                     if (j==0) ((ButtonProperties) button.getUserData()).setCzyMaStatek(true);
                 } catch (IndexOutOfBoundsException ex) {
                 }
@@ -82,7 +86,9 @@ public class Stateczek {
             if (i == listaPunktow.size()-1) {
                 for (int j = -1; j < 2; j++) {
                     try {
-                        ((ButtonProperties) przyciski[czyPoziomo ? x + 1 : x + j][!czyPoziomo ? y + 1 : y + j].getUserData()).setZajety(true);
+                        ButtonProperties bp = (ButtonProperties) przyciski[czyPoziomo ? x + 1 : x + j][!czyPoziomo ? y + 1 : y + j].getUserData();
+                        if (bp.isZajety()) bp.setPodwojnieZajety(true);
+                        else bp.setZajety(true);
                     } catch (IndexOutOfBoundsException ex) {
                     }
                 }
@@ -104,27 +110,19 @@ public class Stateczek {
         int rozmiar = plansza.length;
 
         boolean center = czyNaOkolo(plansza, strzal);
-        boolean gora = strzal.getY() > 0 && ((ButtonProperties) plansza[strzal.getX()][strzal.getY() - 1].getUserData())
-                .isCzyMaStatek() && (kierunek.equals("gora") || kierunek.equals("")) ?
-                czyZatonal(plansza, new Punkt(strzal.getX(), strzal.getY() - 1), "gora") : true;
-        //: czyNaOkolo(plansza, new Punkt(strzal.getX(), strzal.getY() > 0 ? strzal.getY()-1 : strzal.getY()));
+        boolean gora = strzal.getY() <= 0 || !((ButtonProperties) plansza[strzal.getX()][strzal.getY() - 1].getUserData())
+                .isCzyMaStatek() || (!kierunek.equals("gora") && !kierunek.equals("")) || czyZatonal(plansza, new Punkt(strzal.getX(), strzal.getY() - 1), "gora");
 
         boolean dol =
-                strzal.getY() < rozmiar - 1 && ((ButtonProperties) plansza[strzal.getX()][strzal.getY() + 1].getUserData())
-                        .isCzyMaStatek() && (kierunek.equals("dol") || kierunek.equals("")) ?
-                        czyZatonal(plansza, new Punkt(strzal.getX(), strzal.getY() + 1), "dol") : true;
-//                        : czyNaOkolo(plansza, new Punkt(strzal.getX(), strzal.getY() < rozmiar - 1 ? strzal.getY()+1 : strzal.getY()));
+                strzal.getY() >= rozmiar - 1 || !((ButtonProperties) plansza[strzal.getX()][strzal.getY() + 1].getUserData())
+                        .isCzyMaStatek() || (!kierunek.equals("dol") && !kierunek.equals("")) || czyZatonal(plansza, new Punkt(strzal.getX(), strzal.getY() + 1), "dol");
 
-        boolean lewo = strzal.getX() > 0 && ((ButtonProperties) plansza[strzal.getX() - 1][strzal.getY()].getUserData())
-                .isCzyMaStatek() && (kierunek.equals("gora") || kierunek.equals("")) ?
-                czyZatonal(plansza, new Punkt(strzal.getX() - 1, strzal.getY()), "lewo") : true;
-//                : czyNaOkolo(plansza, new Punkt(strzal.getX() > 0 ? strzal.getX()-1 : strzal.getX(), strzal.getY()));
+        boolean lewo = strzal.getX() <= 0 || !((ButtonProperties) plansza[strzal.getX() - 1][strzal.getY()].getUserData())
+                .isCzyMaStatek() || (!kierunek.equals("gora") && !kierunek.equals("")) || czyZatonal(plansza, new Punkt(strzal.getX() - 1, strzal.getY()), "lewo");
 
 
-        boolean prawo = strzal.getX() < rozmiar - 1 && ((ButtonProperties) plansza[strzal.getX() + 1][strzal.getY()].getUserData())
-                .isCzyMaStatek() && (kierunek.equals("gora") || kierunek.equals("")) ?
-                czyZatonal(plansza, new Punkt(strzal.getX() + 1, strzal.getY()), "prawo") : true;
-//                : czyNaOkolo(plansza, new Punkt(strzal.getX() < rozmiar - 1 ? strzal.getX()+1 : strzal.getX(), strzal.getY()));
+        boolean prawo = strzal.getX() >= rozmiar - 1 || !((ButtonProperties) plansza[strzal.getX() + 1][strzal.getY()].getUserData())
+                .isCzyMaStatek() || (!kierunek.equals("gora") && !kierunek.equals("")) || czyZatonal(plansza, new Punkt(strzal.getX() + 1, strzal.getY()), "prawo");
 
         return center && gora && prawo && lewo && dol;
     }

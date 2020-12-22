@@ -553,4 +553,34 @@ public class UstawianieStatkowController {
 		}
 	}
 
+	@FXML
+	private void rozmiescLosowo() {
+		przyciskiDoStanuPoczatkowego();
+		Stateczek.rozmiescLosowo(tablicaPrzyciskow,
+				ustawienia.getIloscStatkowCztero(),
+				ustawienia.getIloscStatkowTrzy(),
+				ustawienia.getIloscStatkowDwa(),
+				ustawienia.getIloscStatkowJeden());
+		ustawIlosciStatkowNaZero();
+	}
+
+	private void przyciskiDoStanuPoczatkowego() {
+		for (var buttons : tablicaPrzyciskow) {
+			for (var b : buttons) {
+				ButtonProperties ustawieniaB = (ButtonProperties) b.getUserData();
+				b.setStyle("-fx-background-color: aqua");
+				ustawieniaB.setCzyMaStatek(false);
+				ustawieniaB.setZajety(false);
+				ustawieniaB.setPodwojnieZajety(false);
+			}
+		}
+	}
+
+	private void ustawIlosciStatkowNaZero() {
+		liczbaCztero.setText("0");
+		liczbaTrzy.setText("0");
+		liczbaDwa.setText("0");
+		liczbaJeden.setText("0");
+	}
+
 }

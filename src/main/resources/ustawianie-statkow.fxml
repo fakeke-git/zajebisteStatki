@@ -20,9 +20,9 @@
                 <Insets right="50.0" />
             </HBox.margin>
         </VBox>
-        <VBox prefHeight="400.0" prefWidth="159.0">
+        <VBox prefHeight="400.0" prefWidth="300.0">
             <children>
-                <BorderPane prefHeight="415.0" prefWidth="155.0">
+                <BorderPane prefHeight="415.0" prefWidth="400.0">
                     <center>
                         <GridPane prefWidth="400.0" BorderPane.alignment="CENTER">
                             <columnConstraints>
@@ -48,7 +48,7 @@
                                 <Label fx:id="liczbaDwa" text="3" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                                 <Label text="Statków jednomasztowych: " GridPane.rowIndex="6" />
                                 <Label fx:id="liczbaJeden" text="4" GridPane.columnIndex="1" GridPane.rowIndex="6" />
-                        <HBox fx:id="czteroHbox" onMouseClicked="#ustawStatek" prefHeight="100.0" prefWidth="150.0" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="1">
+                        <HBox fx:id="czteroHbox" maxHeight="50.0" maxWidth="200.0" onMouseClicked="#ustawStatek" prefHeight="50.0" prefWidth="200.0" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="1">
                            <children>
                               <Button minWidth="30.0" mnemonicParsing="false" style="-fx-background-color: coral;" visible="false">
                                </Button>
@@ -60,7 +60,7 @@
                                 </Button>
                            </children>
                         </HBox>
-                        <HBox fx:id="trzyHbox" maxWidth="112.5" onMouseClicked="#ustawStatek" prefHeight="100.0" prefWidth="112.5" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="3">
+                        <HBox fx:id="trzyHbox" maxHeight="50.0" maxWidth="150.0" onMouseClicked="#ustawStatek" prefHeight="50.0" prefWidth="150.0" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="3">
                            <children>
                                <Button minWidth="30.0" mnemonicParsing="false" style="-fx-background-color: coral;" visible="false">
                                </Button>
@@ -70,13 +70,13 @@
                                </Button>
                            </children>
                         </HBox>
-                        <HBox fx:id="dwuHbox" maxWidth="75.0" onMouseClicked="#ustawStatek" prefHeight="100.0" prefWidth="75.0" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="5">
+                        <HBox fx:id="dwuHbox" maxHeight="50.0" maxWidth="100.0" onMouseClicked="#ustawStatek" prefHeight="50.0" prefWidth="100.0" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="5">
                            <children>
                               <Button minWidth="30.0" mnemonicParsing="false" style="-fx-background-color: coral;" visible="false" />
                               <Button minWidth="30.0" mnemonicParsing="false" style="-fx-background-color: coral;" visible="false" />
                            </children>
                         </HBox>
-                        <HBox fx:id="jednoHbox" maxWidth="37.5" onMouseClicked="#ustawStatek" prefHeight="0.0" prefWidth="37.5" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="7">
+                        <HBox fx:id="jednoHbox" maxHeight="50.0" maxWidth="50.0" onMouseClicked="#ustawStatek" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: coral; -fx-cursor: hand" GridPane.rowIndex="7">
                            <children>
                               <Button minWidth="30.0" mnemonicParsing="false" style="-fx-background-color: coral;" visible="false" />
                            </children>
@@ -87,10 +87,18 @@
                     <bottom>
                         <HBox prefHeight="86.0" prefWidth="155.0" BorderPane.alignment="CENTER">
                             <children>
-                                <Button mnemonicParsing="false" onMouseClicked="#cofnij" text="Cofnij" />
+                                <Button mnemonicParsing="false" onMouseClicked="#cofnij" text="Cofnij">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin></Button>
+                        <Button onAction="#rozmiescLosowo" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Rozmieść losowo">
+                           <HBox.margin>
+                              <Insets left="20.0" />
+                           </HBox.margin>
+                        </Button>
                                 <Button mnemonicParsing="false" onMouseClicked="#dalej" text="Zatwierdź">
                                     <HBox.margin>
-                                        <Insets left="40.0" />
+                                        <Insets left="20.0" />
                                     </HBox.margin>
                                 </Button>
                             </children>
